@@ -36,9 +36,8 @@ jobs:
             command: |
               echo "hello world" > file1.txt
               cat file1.txt
-
 workflows:
   test1:
     jobs:
-      configure-infrastructure
+      - configure-infrastructure
 
