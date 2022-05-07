@@ -1,3 +1,4 @@
+version: 2.1
 commands:
   install_ansible:
       description: "Installs Ansible on Ubuntu images"
