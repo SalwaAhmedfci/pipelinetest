@@ -1,1 +1,43 @@
-hello
+commands:
+  install_ansible:
+      description: "Installs Ansible on Ubuntu images"
+      steps:
+        - run: 
+            name: "Install Ansible V2"
+            command: |
+              sudo apt update
+              sudo apt install software-properties-common
+              sudo add-apt-repository --yes --update ppa:ansible/ansible
+              sudo apt install ansible
+  install_awscli:
+      description: "Installs AWS_CLI_v2.0"
+      steps:
+        - run: 
+            name: "Install AWS CLI"
+            command: |
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+jobs:
+  configure-infrastructure:
+      docker:
+        - image: cimg/base:2022.04
+      steps:
+        - checkout
+        - install_awscli
+        - install_ansible
+        # - add_ssh_keys:
+        #     # fingerprints: ["5f:14:6b:6c:f9:f7:cc:34:80:43:51:c2:fc:a9:67:89"]
+        - attach_workspace:
+            at: ~/
+        - run:
+            name: Configure server
+            command: |
+              echo "hello world" > file1.txt
+              cat file1.txt
+
+workflows:
+  test1:
+    jobs:
+      configure-infrastructure
+
